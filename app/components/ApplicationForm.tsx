@@ -21,20 +21,21 @@ type Props = {
 const ApplicationForm = ({ issueId, verified }: Props) => {
     const [visible, setVisible] = useState<boolean>(false)
     const router = useRouter()
-
+    const closeModal = () => !verified ? router.push('/accounts/new') : setVisible(false)
     return (
         <>
-            <button className="btn-purple mt-4" onClick={() => setVisible(true)} >apply</button>
+            <button className="btn-purple mt-4" onClick={()=>setVisible(true)} >apply</button>
                 <Modal 
                       visible={visible}
                       width="400"
-                      height="400"
                       effect="fadeInUp"
-                      onClickAway={() => setVisible(false)}
+                      onClickAway={closeModal}
                   >
-                      <div className="height-100">
-                          <button onClick={() => setVisible(false)}>Close</button>
-                          <div className="center" >
+                    {
+                        verified ?
+                        <div className="height-100">
+                            <button onClick={() => setVisible(false)}>Close</button>
+                            <div className="center" >
                                 <Form<ApplicationFormInputType>
                                     submitText=""
                                     schema={ApplicationFormInput}
@@ -58,8 +59,14 @@ const ApplicationForm = ({ issueId, verified }: Props) => {
                                     <button type="submit" className="btn-purple" >submit</button>
                                     <button onClick={() => setVisible(false)} className="btn-clear" >cancel</button>
                                 </Form>
-                            </div>
-                      </div>
+                             </div>
+                        </div> 
+                        : 
+                        <div className="center">
+                            <h1>Please verified your account</h1><br></br>
+                            <button className="btn-purple" onClick={closeModal}>Close</button>
+                        </div>
+                    }
                 </Modal>
         </>
     );

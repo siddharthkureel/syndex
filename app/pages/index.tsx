@@ -7,9 +7,9 @@ import ApplicationForm from "app/components/ApplicationForm"
 
 const ITEMS_PER_PAGE = 100
 
-export const IssuesList = () => {
+export const IssuesList = ({ currentUser }) => {
   const router = useRouter()
-  const currentUser = useCurrentUser()
+  
   const page = Number(router.query.page) || 0
   const [{ issues, hasMore }] = usePaginatedQuery(getIssues, {
     orderBy: { id: "asc" },
@@ -45,29 +45,34 @@ export const IssuesList = () => {
 }
 
 const IssuesPage: BlitzPage = () => {
+  const currentUser = useCurrentUser()
   return (
     <div>
       <Head>
         <title>Issues</title>
       </Head>
-
       <main>
-        <h1 className="text-4xl">Issues</h1>
+        <h1 className="text-4xl margin-bottom-20">Issues</h1>
+        <hr/><br/>
+        {
+          currentUser &&
+          <div className="my-6">
+            <Link href="/issues/new">
+              <a className="btn-purple">Create Issue</a>
+            </Link>
+          </div>
+        }
 
-        <div className="my-6">
-          <Link href="/issues/new">
-            <a className="btn-purple">Create Issue</a>
-          </Link>
-        </div>
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <IssuesList />
-        </Suspense>
+          <IssuesList currentUser={currentUser} />
       </main>
     </div>
   )
 }
 
-IssuesPage.getLayout = (page) => <Layout title={"Issues"}>{page}</Layout>
+IssuesPage.getLayout = (page) => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <Layout title={"Issues"}>{page}</Layout>
+  </Suspense>
+)
 
 export default IssuesPage

@@ -47,8 +47,8 @@ const AccountsPage: BlitzPage = () => {
       </Head>
 
       <main>
-        <h1 className="text-4xl">Accounts</h1>
-
+        <h1 className="text-4xl margin-bottom-20">Accounts</h1>
+        <hr/><br/>
         <p>
           <Link href="/accounts/new">
             <a className="btn-purple">Create Account</a>
