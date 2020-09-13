@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./button.css";
+
+.hero {
+  width: 100%;
+  color: #333;
+}
+
+.title {
+  margin: 0;
+  width: 100%;
+  padding-top: 80px;
+  line-height: 1.15;
+  font-size: 48px;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+.height-100 {
+  height: 100%;
+}
+.center {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

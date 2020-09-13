@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = ["sqlite", "postgres"]
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --------------------------------------
+
+model User {
+  id             Int       @default(autoincrement()) @id
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  name           String?
+  email          String    @unique
+  hashedPassword String?
+  role           String    @default("user")
+  sessions       Session[]
+  account        Account    @relation(fields: [accountId], references: [id])
+  accountId      Int   
+}
+
+model Session {
+  id                 Int       @default(autoincrement()) @id
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  expiresAt          DateTime?
+  handle             String    @unique
+  user               User?     @relation(fields: [userId], references: [id])
+  userId             Int?
+  hashedSessionToken String?
+  antiCSRFToken      String?
+  publicData         String?
+  privateData        String?
+}
+
+model Account {
+  id        Int            @default(autoincrement()) @id
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  name      String         
+  verified  Boolean        @default(false)
+  user      User?          
+  officers  Relationship[] @relation(name: "PrimaryAccountOnRelationship")
+  roles     Relationship[] @relation(name: "SecondaryAccountOnRelationship")
+}
+
+model Issue {
+  id              Int      @default(autoincrement()) @id
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String   
+  minimumQuantity Float    
+  price           Float    
+}
+
+model Relationship {
+  id                 Int      @default(autoincrement()) @id
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  primaryAccount     Account  @relation(name: "PrimaryAccountOnRelationship", fields: [primaryAccountId], references: [id])
+  primaryAccountId   Int      
+  secondaryAccount   Account  @relation(name: "SecondaryAccountOnRelationship", fields: [secondaryAccountId], references: [id])
+  secondaryAccountId Int      
+}
