@@ -28,7 +28,7 @@ export const IssuesList = () => {
             </Link>
             {
               currentUser &&
-              <ApplicationForm issueId={issue.id}/>
+              <ApplicationForm issueId={issue.id} verified={currentUser.status?.verified} />
             }
           </li>
         ))}

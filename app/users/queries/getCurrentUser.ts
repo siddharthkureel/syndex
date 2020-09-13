@@ -8,6 +8,16 @@ export default async function getCurrentUser(_ = null, ctx: { session?: SessionC
     where: { id: ctx.session!.userId },
     select: { id: true, name: true, email: true, role: true, accountId: true },
   })
-
-  return user
+  const primaryAccountId = await db.relationship.findOne({
+    where: { secondaryAccountId: user?.accountId },
+    select: { primaryAccountId: true },
+  })
+  const status  = await db.account.findOne({
+    where: { id: primaryAccountId?.primaryAccountId },
+    select: { verified: true }
+  })
+  return {
+    ...user,
+    status
+  }
 }

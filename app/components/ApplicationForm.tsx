@@ -14,10 +14,11 @@ const ApplicationFormInput = z.object({
 type ApplicationFormInputType = z.infer<typeof ApplicationFormInput>
 
 type Props = {
-   issueId: number
+   issueId: number;
+   verified: boolean | undefined;
 }
 
-const ApplicationForm = ({ issueId }: Props) => {
+const ApplicationForm = ({ issueId, verified }: Props) => {
     const [visible, setVisible] = useState<boolean>(false)
     const router = useRouter()
 

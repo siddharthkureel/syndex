@@ -21,7 +21,7 @@ const NewAccountPage: BlitzPage = () => {
           onSubmit={async (input) => {
             try {
               const account = await createAccount(input)
-              router.push("/accounts/[accountId]", `/accounts/${account.id}`)
+              router.push("/accounts/")
             } catch (error) {
               alert("Error creating account " + JSON.stringify(error, null, 2))
             }
