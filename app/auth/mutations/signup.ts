@@ -12,8 +12,8 @@ export default async function signup(
 
   const hashedPassword = await hashPassword(password)
   const user = await db.user.create({
-    data: { email, hashedPassword, role: "user", account: { create: { name } } },
-    select: { id: true, name: true, email: true, role: true },
+    data: { email, hashedPassword, name, role: "user", account: { create: { name } } },
+    select: { id: true, name: true, email: true, role: true, accountId: true },
   })
 
   await ctx.session!.create({ userId: user.id, roles: [user.role] })
