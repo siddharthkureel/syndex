@@ -6,7 +6,10 @@ import { useCurrentUser } from "app/hooks/useCurrentUser"
 import ApplicationForm from "app/components/ApplicationForm"
 
 const ITEMS_PER_PAGE = 100
-
+const parseDate = (date: string) => {
+  const string = date.split('GMT');
+  return string[0]
+}
 export const IssuesList = ({ currentUser }) => {
   const router = useRouter()
   
@@ -23,13 +26,22 @@ export const IssuesList = ({ currentUser }) => {
       <ul>
         {issues.map((issue) => (
           <li key={issue.id}>
-            <Link href="/issues/[issueId]" as={`/issues/${issue.id}`}>
-              <a>{issue.name}</a>
-            </Link>
-            {
-              currentUser &&
-              <ApplicationForm issueId={issue.id} verified={currentUser.status?.verified} />
-            }
+            <div className="shadow padding-10 space-between" >
+              <p className="margin-auto">
+                <span className="issue-name">{issue.name}</span>
+                | last updated at {parseDate(issue.updatedAt.toString())}
+              </p>
+              <div>
+                {currentUser &&
+                <>
+                  <Link href="/issues/[issueId]" as={`/issues/${issue.id}`}>
+                    <a className="btn-clear">details</a>
+                  </Link> 
+                  <ApplicationForm issueId={issue.id} verified={currentUser.status?.verified} />
+                </>}
+              </div>
+            </div>
+            <br/>
           </li>
         ))}
       </ul>

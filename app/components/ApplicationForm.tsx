@@ -24,7 +24,7 @@ const ApplicationForm = ({ issueId, verified }: Props) => {
     const closeModal = () => !verified ? router.push('/accounts/new') : setVisible(false)
     return (
         <>
-            <button className="btn-purple mt-4" onClick={()=>setVisible(true)} >apply</button>
+            <button className="btn-purple" onClick={()=>setVisible(true)} >apply</button>
                 <Modal 
                       visible={visible}
                       width="400"
@@ -62,7 +62,7 @@ const ApplicationForm = ({ issueId, verified }: Props) => {
                              </div>
                         </div> 
                         : 
-                        <div className="center">
+                        <div className="center grid">
                             <h1>Please verified your account</h1><br></br>
                             <button className="btn-purple" onClick={closeModal}>Close</button>
                         </div>
